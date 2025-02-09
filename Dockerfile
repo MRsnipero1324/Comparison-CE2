@@ -13,11 +13,11 @@ WORKDIR /app/Solutions-CE2
 RUN git clone https://github.com/MRsnipero1324/Solutions-CE2.git /app/Solutions-CE2
 
 # Add entrypoint script to execute all the commands
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
+COPY benchmark.sh /benchmark.sh
+RUN chmod +x /benchmark.sh
 
 # Volumes for data sharing between host and container
 VOLUME ["/app/Solutions-CE2"]
 
 # Set the default command to execute the entrypoint script
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["benchmark.sh"]
