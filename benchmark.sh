@@ -1,43 +1,20 @@
 #!/bin/bash
 
-set -e
+# Navigate to the cloned repository directory
+cd /app/Solutions-CE2
 
-# Declarar los lenguajes y los Dockerfiles correspondientes
-declare -a languages=("Python" "Cpp" "JavaScript" "Go" "Rust")
-declare -a dockerfiles=("Dockerfile.Python" "Dockerfile.cpp" "Dockerfile.javascript" "Dockerfile.go" "Dockerfile.rust")
+# Execute the Docker commands
+docker build -t matrix_python -f DockerFiles/Dockerfile.Python .
+docker run --rm -v $(pwd):/output matrix_python
 
-# Ejecutar los contenedores y generar los archivos execution_time_----
-for i in "${!languages[@]}"; do
-    lang="${languages[$i]}"
-    dockerfile="${dockerfiles[$i]}"
-    tag="matrix_${lang,,}"
+docker build -t matrix_cpp -f DockerFiles/Dockerfile.cpp .
+docker run --rm -v $(pwd):/app/output matrix_cpp
 
-    echo "Building and running container for $lang..."
-    docker build -t $tag -f DockerFiles/$dockerfile .
-    docker run --rm -v "$(pwd):$(pwd)" -w "$(pwd)" $tag || echo "Failed to run container for $lang"
-done
+docker build -t matrix_js -f DockerFiles/Dockerfile.javascript .
+docker run --rm -v $(pwd):/output matrix_js
 
-# Crear el archivo benchmark.txt
-echo "Creating benchmark.txt..."
-if ls execution_time_* 1> /dev/null 2>&1; then
-    # Extraer tiempos de ejecución y asociarlos con los lenguajes
-    declare -A execution_times
-    for lang in python js go rust cpp; do
-        file="execution_time_${lang}.txt"
-        if [[ -f $file ]]; then
-            time=$(grep -oP "\d+(?= ms)" "$file")
-            execution_times["$lang"]="$time"
-        else
-            echo "Warning: File $file not found."
-        fi
-    done
+docker build -t matrix_go -f DockerFiles/Dockerfile.go .
+docker run --rm -v $(pwd):/output matrix_go
 
-    # Ordenar los tiempos y generar el archivo benchmark.txt
-    for lang in "${!execution_times[@]}"; do
-        echo "$lang: ${execution_times[$lang]} ms"
-    done | sort -k2 -n > benchmark.txt
-
-    echo "Benchmark results saved in benchmark.txt."
-else
-    echo "No execution_time_* files found. Ensure containers are generating these files."
-fi
+docker build -t matrix_rust -f DockerFiles/Dockerfile.rust .
+docker run --rm -v $(pwd):/app/output matrix_rust
