@@ -11,10 +11,10 @@ RUN git clone https://github.com/MRsnipero1324/Solutions-CE2.git /app
 WORKDIR /app
 
 # Copiar el script de automatización
-COPY benchmark.sh /app/benchmark.sh
+COPY benchmark.sh ./benchmark.sh
 
 # Dar permisos de ejecución al script
-RUN chmod +x /app/benchmark.sh
+RUN chmod +x ./benchmark.sh
 
 # Ejecutar el script al iniciar el contenedor
-CMD ["/app/benchmark.sh"]
+CMD ["./benchmark.sh"]
