@@ -22,7 +22,7 @@ echo "Creating benchmark.txt..."
 if ls execution_time_* 1> /dev/null 2>&1; then
     # Extraer tiempos de ejecución y asociarlos con los lenguajes
     declare -A execution_times
-    for lang in java python js go rust cpp; do
+    for lang in python js go rust cpp; do
         file="execution_time_${lang}.txt"
         if [[ -f $file ]]; then
             time=$(grep -oP "\d+(?= ms)" "$file")
