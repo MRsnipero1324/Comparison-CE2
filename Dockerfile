@@ -1,20 +1,23 @@
-# Usar docker:dind como base
+# Base image
 FROM docker:dind
 
-# Instalar Git y otros utilitarios necesarios
-RUN apk add --no-cache git bash
+# Install required dependencies
+RUN apk add --no-cache \
+    git \
+    && rm -rf /var/cache/apk/*
 
-# Clonar el repositorio
-RUN git clone https://github.com/MRsnipero1324/Solutions-CE2.git /app
+# Set work directory
+WORKDIR /app/Solutions-CE2
 
-# Establecer el directorio de trabajo
-WORKDIR /app
+# Clone the repository
+RUN git clone https://github.com/MRsnipero1324/Solutions-CE2.git /app/Solutions-CE2
 
-# Copiar el script de automatización
-COPY benchmark.sh /app/benchmark.sh
+# Add entrypoint script to execute all the commands
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 
-# Dar permisos de ejecución al script
-RUN chmod +x /app/benchmark.sh
+# Volumes for data sharing between host and container
+VOLUME ["/app/Solutions-CE2"]
 
-# Ejecutar el script al iniciar el contenedor
-CMD ["/app/benchmark.sh"]
+# Set the default command to execute the entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
