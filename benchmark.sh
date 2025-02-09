@@ -3,8 +3,8 @@
 set -e
 
 # Construir y ejecutar los contenedores
-declare -a languages=("Python" "Java" "C++" "JavaScript" "Go" "Rust")
-declare -a dockerfiles=("Dockerfile.Python" "Dockerfile.Java" "Dockerfile.cpp" "Dockerfile.javascript" "Dockerfile.go" "Dockerfile.rust")
+declare -a languages=("Python" "C++" "JavaScript" "Go" "Rust")
+declare -a dockerfiles=("Dockerfile.Python" "Dockerfile.cpp" "Dockerfile.javascript" "Dockerfile.go" "Dockerfile.rust")
 output_dir="/output"
 
 mkdir -p $output_dir
