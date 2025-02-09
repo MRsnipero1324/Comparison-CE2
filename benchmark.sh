@@ -3,8 +3,8 @@
 set -e
 
 # Declarar los lenguajes y los Dockerfiles correspondientes
-declare -a languages=("Python" "Cpp" "JavaScript" "Go" "Rust" "Java")
-declare -a dockerfiles=("Dockerfile.Python" "Dockerfile.cpp" "Dockerfile.javascript" "Dockerfile.go" "Dockerfile.rust" "Dockerfile.Java")
+declare -a languages=("Python" "Cpp" "JavaScript" "Go" "Rust")
+declare -a dockerfiles=("Dockerfile.Python" "Dockerfile.cpp" "Dockerfile.javascript" "Dockerfile.go" "Dockerfile.rust")
 
 # Ejecutar los contenedores y generar los archivos execution_time_----
 for i in "${!languages[@]}"; do
