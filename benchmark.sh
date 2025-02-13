@@ -14,3 +14,5 @@ docker run --rm -v $(pwd)/output:/output matrix_go
 
 docker build -t matrix_rust -f DockerFiles/Dockerfile.rust .
 docker run --rm -v $(pwd)/output:/app/output matrix_rust
+
+ls 
