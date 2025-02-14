@@ -1,21 +1,14 @@
-# Usa Docker dentro de Docker (DinD)
+# Usa Docker-in-Docker como base
 FROM docker:dind
 
-# Instalar herramientas necesarias
-RUN apk add --no-cache git bash
+# Instala git y cualquier otro paquete necesario
+RUN apk add --no-cache git 
 
-# Clonar el repositorio con los contenedores
-RUN git clone https://github.com/MRsnipero1324/Solutions-CE2.git /app
+# Clona el repositorio dentro del contenedor
+RUN git clone https://github.com/MRsnipero1324/Solutions-CE2.git /Solutions-CE2
 
-# Establecer directorio de trabajo
-WORKDIR /app
+# Define el directorio de trabajo
+WORKDIR /Solutions-CE2
 
-# Copiar el script de ejecución
-COPY run_containers.sh ./run_containers.sh
-
-# Dar permisos de ejecución al script
-RUN chmod +x ./run_containers.sh
-
-# Ejecutar el script al iniciar
-CMD ["./run_containers.sh"]
-
+# Ejecutar el contenedor en modo DinD
+CMD ["dockerd-entrypoint.sh"]
