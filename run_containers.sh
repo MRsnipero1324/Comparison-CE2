@@ -1,12 +1,12 @@
 #!/bin/bash
 
-docker build -t custom-dind .
+# 1. Ejecutar el contenedor DinD en modo privilegiado y en segundo plano
+docker run --privileged -d --rm --name dind-container docker:dind
 
-docker run --privileged -d --rm --name dind-container custom-dind
-
+# 2. Esperar unos segundos para que Docker dentro del contenedor esté listo
 sleep 5
 
-
+# 3. Ejecutar los comandos dentro del contenedor DinD
 docker exec -it dind-container sh -c "
     apk add --no-cache git && \
     git clone https://github.com/MRsnipero1324/Solutions-CE2.git && \
@@ -30,6 +30,8 @@ docker exec -it dind-container sh -c "
     docker run --rm -v \$(pwd)/output:/app/output matrix_rust 
 "
 
+# 4. Copiar la carpeta de salida desde el contenedor al host
 docker cp dind-container:/Solutions-CE2/output ./output
 
+# 5. Detener el contenedor DinD (opcional, porque usamos --rm)
 docker stop dind-container

@@ -15,6 +15,9 @@ if ! ls "$OUTPUT_DIR"/execution_time_* &>/dev/null; then
     exit 1
 fi
 
+# Array para almacenar los resultados
+declare -a results
+
 # Recorrer todos los archivos con el formato execution_time_*
 for file in "$OUTPUT_DIR"/execution_time_*; do
     # Extraer el nombre del lenguaje desde el nombre del archivo (sin extensión)
@@ -29,6 +32,9 @@ for file in "$OUTPUT_DIR"/execution_time_*; do
         continue
     fi
 
-    # Mostrar el resultado en el formato requerido
-    echo "$lang: $time_ms ms"
+    # Agregar al array con formato "tiempo lenguaje"
+    results+=("$time_ms $lang")
 done
+
+# Ordenar y mostrar en formato "*: tiempo ms"
+printf "%s\n" "${results[@]}" | sort -n | awk '{print $2 ": " $1 " ms"}'
