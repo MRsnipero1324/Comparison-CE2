@@ -1,12 +1,9 @@
 #!/bin/bash
 
-# 1. Construir la imagen personalizada de DinD
 docker build -t custom-dind .
 
-# 2. Ejecutar el contenedor en modo privilegiado y en segundo plano
 docker run --privileged -d --rm --name dind-container custom-dind
 
-# 3. Esperar unos segundos para que Docker dentro del contenedor esté listo
 sleep 5
 
 docker exec -it dind-container sh -c "
@@ -31,8 +28,9 @@ docker exec -it dind-container sh -c "
     docker run --rm -v \$(pwd)/output:/app/output matrix_rust
 "
 
-# 5. Copiar la carpeta de salida desde el contenedor al host
 docker cp dind-container:Solutions-CE2/output ./output
 
-# 6. Detener el contenedor DinD (opcional, ya que usamos --rm)
 docker stop dind-container
+
+chmod +x process_times.sh
+./process_times.sh
