@@ -28,7 +28,7 @@ docker exec -it dind-container sh -c "
     docker run --rm -v \$(pwd)/output:/output matrix_go && \
 
     docker build -t matrix_rust -f DockerFiles/Dockerfile.rust . && \
-    docker run --rm -v \$(pwd)/output:/app/output matrix_rust && \
+    docker run --rm -v \$(pwd)/output:/app/output matrix_rust
 "
 
 # 5. Copiar la carpeta de salida desde el contenedor al host
