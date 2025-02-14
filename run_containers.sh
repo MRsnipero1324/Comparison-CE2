@@ -9,13 +9,11 @@ fi
 
 echo "Construyendo y ejecutando contenedores..."
 
-# Construir y ejecutar el primer contenedor
-docker build -t contenedor_1 -f DockerFiles/Dockerfile.python .
-docker run --rm -v /output:/output contenedor_1
+docker build -t matrix_python -f DockerFiles/Dockerfile.Python . 
+docker run --rm -v $(pwd)/output:/output matrix_python
 
-# Construir y ejecutar el segundo contenedor
-docker build -t contenedor_2 -f DockerFiles/Dockerfile.cpp .
-docker run --rm -v /output:/output contenedor_2
+docker build -t matrix_cpp -f DockerFiles/Dockerfile.cpp .
+docker run --rm -v $(pwd)/output:/app/output matrix_cpp
 
 echo "Ejecución completada."
 ls -l /output  # Verificar los archivos generados
