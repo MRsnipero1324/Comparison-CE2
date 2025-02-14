@@ -4,5 +4,5 @@ Time comparison for the execution of the 5 solutions in the different programmin
 To run :
     chmod +x run_containers.sh
     ./run_containers.sh
-    chmod +x run_containers.sh
-    ./run_containers.sh
+    chmod +x process_times.sh
+    ./process_times.sh
