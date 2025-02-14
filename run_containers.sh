@@ -1,12 +1,16 @@
 #!/bin/bash
 
-docker run --privileged -d --rm --name dind-container docker:dind
+# 1. Construir la imagen personalizada de DinD
+docker build -t custom-dind .
 
+# 2. Ejecutar el contenedor en modo privilegiado y en segundo plano
+docker run --privileged -d --rm --name dind-container custom-dind
+
+# 3. Esperar unos segundos para que Docker dentro del contenedor esté listo
 sleep 5
 
 docker exec -it dind-container sh -c "
     apk add --no-cache git && \
-    git clone https://github.com/MRsnipero1324/Solutions-CE2.git && \
     cd Solutions-CE2 && \
     
     # Construir imagen de Python
@@ -24,9 +28,11 @@ docker exec -it dind-container sh -c "
     docker run --rm -v \$(pwd)/output:/output matrix_go && \
 
     docker build -t matrix_rust -f DockerFiles/Dockerfile.rust . && \
-    docker run --rm -v \$(pwd)/output:/app/output matrix_rust 
+    docker run --rm -v \$(pwd)/output:/app/output matrix_rust && \
 "
 
-docker cp dind-container:/Solutions-CE2/output ./output
+# 5. Copiar la carpeta de salida desde el contenedor al host
+docker cp dind-container:Solutions-CE2/output ./output
 
+# 6. Detener el contenedor DinD (opcional, ya que usamos --rm)
 docker stop dind-container
