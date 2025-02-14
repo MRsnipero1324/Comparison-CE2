@@ -9,6 +9,9 @@ docker run --privileged -d --rm --name dind-container custom-dind
 # 3. Esperar unos segundos para que Docker dentro del contenedor esté listo
 sleep 5
 
+# Crear el directorio de salida en el contenedor DinD
+docker exec -it dind-container mkdir -p /Solutions-CE2/output
+
 # 4. Ejecutar los comandos dentro del contenedor DinD
 docker exec -it dind-container sh -c "
     cd /Solutions-CE2 && \

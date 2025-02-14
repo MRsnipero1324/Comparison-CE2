@@ -3,6 +3,8 @@
 # Directorio donde están los archivos
 OUTPUT_DIR="./output"
 
+#alo como estas me apagaste el celular 
+
 # Verificar si la carpeta output existe
 if [ ! -d "$OUTPUT_DIR" ]; then
     echo "Error: La carpeta 'output' no existe."
