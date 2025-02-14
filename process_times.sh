@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# Directorio donde están los archivos
 OUTPUT_DIR="./output"
 
 # Verificar si la carpeta output existe
@@ -15,7 +14,6 @@ if ! ls "$OUTPUT_DIR"/execution_time_* &>/dev/null; then
     exit 1
 fi
 
-# Array para almacenar los resultados
 declare -a results
 
 # Recorrer todos los archivos con el formato execution_time_*
@@ -26,15 +24,12 @@ for file in "$OUTPUT_DIR"/execution_time_*; do
     # Extraer el tiempo de ejecución incluyendo decimales
     time_ms=$(grep -oE '[0-9]+(\.[0-9]+)?' "$file")
 
-    # Verificar si se encontró un tiempo válido
     if [[ -z "$time_ms" ]]; then
         echo "Advertencia: No se encontró un tiempo válido en $file"
         continue
     fi
 
-    # Agregar al array con formato "tiempo lenguaje"
     results+=("$time_ms $lang")
 done
 
-# Ordenar y mostrar en formato "*: tiempo ms"
 printf "%s\n" "${results[@]}" | sort -n | awk '{print $2 ": " $1 " ms"}'
